@@ -17,9 +17,14 @@
       <a class="navbar-brand" href="/"><%= image_tag 'logo.png', class: 'img-logo' %></a>
 
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+         <ul class="navbar-nav mr-auto mt-2 mt-md-0">
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <div class="booyah-box-nav col-2">
+                <%= link_to new_place_path, class: 'nav-link' do %>
+                  <i class="fa fa-plus-square"></i>
+                  New Place
+                <% end %>
+            </div>
           </li>
         </ul>
       </div>
