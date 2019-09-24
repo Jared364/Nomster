@@ -42,7 +42,7 @@
 
 
 
-  <!-- Modal -->
+  <!-- Comment Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -68,7 +68,7 @@
 
   <div class="col-10 offset-1">
     <h1 class="float-left">Comments</h1>
-    <!-- Button trigger modal -->
+    <!-- COMMENT MODAL BUTTON -->
     <button type="button" class="float-right btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
       Add a Comment
     </button>
@@ -93,6 +93,10 @@
   <%= simple_form_for @photo, url: place_photos_path(@place) do |f| %>
     <%= f.input :caption %>
     <%= f.submit "Add Photo", class: 'btn btn-primary' %>
+  <% end %>
+
+  <% @place.photos.each do |photo|%>
+    <%= photo.caption %>
   <% end %>
 
 </div>
