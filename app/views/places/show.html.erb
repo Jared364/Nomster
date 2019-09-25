@@ -4,43 +4,55 @@
   <br/><br/>
   <p><%= @place.description %></p>
 
-  <% if @place.latitude.present? && @place.longitude.present? %>
-  <script>
+ 
+  <div class="row">
+    <div class="view_photo col-8">
+      <% @place.photos.each do |photo|%>
+        <%= image_tag photo.picture.url, class: 'u_img' %>
+        <%= photo.caption %>  
+      <% end %>
+    </div>
+    <div class="col-4">
+      <% if @place.latitude.present? && @place.longitude.present? %>
+        <script>
+          function initMap() {
+            var myLatLng = {lat: <%= @place.latitude %>, lng: <%= @place.longitude %>};
 
-    function initMap() {
-      var myLatLng = {lat: <%= @place.latitude %>, lng: <%= @place.longitude %>};
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 15,
+              center: myLatLng
+            });
 
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: myLatLng
-      });
+            var marker = new google.maps.Marker({
+              position: myLatLng,
+              map: map,
+              title: 'Hello World!'
+            });
+          }
+        </script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbp1X8K__gxZ3MQYBfisRd_Fj0yGduBko&callback=initMap">
+        </script>
 
-      var marker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        title: 'Hello World!'
-      });
-    }
-  </script>
-  <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbp1X8K__gxZ3MQYBfisRd_Fj0yGduBko&callback=initMap">
-  </script>
-
-  <div id="map"></div>
-  <% end %>
+        <div id="map"></div>
+      <% end %>
+    </div>
+  </div>
   
   <br />
 
   <div class="float-right">
     <% if current_user && current_user == @place.user %>
+      <!-- Photo Modal Button -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Add Photo
+      </button>
       <%= link_to 'Edit', edit_place_path(@place), class: 'btn btn-success' %>
       <%= link_to 'Destroy', place_path(@place), method: :delete, data: {confirm: 'Are you sure you want to delete this?'}, class: 'btn btn-danger' %>
     <% end %>
   </div><br/><br/><br/>
 
   <div class="clear"></div>
-
-
 
   <!-- Comment Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -96,9 +108,31 @@
     <%= f.submit "Add Photo", class: 'btn btn-primary' %>
   <% end %>
 
-  <% @place.photos.each do |photo|%>
-    <%= photo.caption %>
-    <%= image_tag photo.picture.url %>
-  <% end %>
+
+<!-- Photo Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Photo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <%= simple_form_for @photo, url: place_photos_path(@place) do |f| %>
+        <div class="modal-body">
+          <%= f.input :picture %>
+          <%= f.input :caption %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= f.submit "Add Photo", class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
 
 </div>
