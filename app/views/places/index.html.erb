@@ -8,6 +8,13 @@
     <i><%= place.address %></i><br />
     <p><%= place.description %></p><br />
 
+    <% if place.photos.present? %>
+    <div class="view_caption col-10 offset-1">
+        <%= image_tag place.photos.picture.url, class: 'u_img' %>
+    </div>
+    <% end %>
+
+
     <% if place.user.present? %>
       <small><%= place.user.email %></small>
     <% end %>
