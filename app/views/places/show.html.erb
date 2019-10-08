@@ -6,13 +6,13 @@
 
  
   <div class="row">
-    <div class="view_caption col-7">
+    <div class="view_caption col-sm-6">
       <% @place.photos.each do |photo|%>
         <%= image_tag photo.picture.url, class: 'u_img' %>
-        <%= photo.caption %>  
+        <%= photo.caption %> 
       <% end %>
     </div>
-    <div class="map_view col-5">
+    <div class="map_view col-sm-6">
       <% if @place.latitude.present? && @place.longitude.present? %>
         <script>
           function initMap() {
